@@ -1,512 +1,440 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-        content="FusionAgent: A Multimodal Agent with Dynamic Model Selection for Human Recognition. CVPR 2026.">
-  <meta name="keywords" content="FusionAgent, Human Recognition, Multimodal Agent, Score Fusion, MLLM, Biometrics, CVPR 2026">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FusionAgent: A Multimodal Agent with Dynamic Model Selection for Human Recognition</title>
+  <meta name="description" content="ReFine-RFT: Can Textual Reasoning Improve the Performance of MLLMs on Fine-grained Visual Classification? CVPR Findings 2026.">
+  <meta name="keywords" content="ReFine-RFT, Fine-grained Visual Classification, FGVC, MLLM, Reinforcement Fine-tuning, Cost of Thinking, MRN, CVPR 2026">
+  <title>ReFine-RFT — Fine-grained Visual Classification with Reasoning Control</title>
 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
-
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
-  <link rel="icon" href="./static/images/FusionAgent_icon.svg">
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
-  <script src="./static/js/bulma-slider.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/refine.css">
 </head>
 <body>
 
-<!-- Hero / Title -->
-<section class="hero publication-header">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <div class="publication-title-row">
-            <img src="./static/images/FusionAgent_icon.svg" alt="FusionAgent" class="publication-title-icon">
-            <h1 class="title is-1 publication-title">FusionAgent</h1>
-          </div>
-          <h2 class="subtitle is-3 publication-subtitle">A Multimodal Agent with Dynamic Model Selection for Human Recognition</h2>
-          <div class="is-size-5 publication-venue">
-            <span>CVPR 2026</span>
-          </div>
+<!-- ── Sticky Navigation ──────────────────────────────────── -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">ReFine-RFT</a>
+    <ul class="nav-links">
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#motivation">Motivation</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#analysis">Analysis</a></li>
+      <li><a href="#bibtex">BibTeX</a></li>
+    </ul>
+  </div>
+</nav>
 
-          <div class="is-size-5 publication-authors" style="margin-top: 1rem;">
-            <span class="author-block">
-              <a href="https://jiezhu23.github.io/" target="_blank">Jie Zhu</a>,</span>
-            <span class="author-block">
-              <a href="https://chelsea234.github.io/website/" target="_blank">Xiao Guo</a>,</span>
-            <span class="author-block">
-              <a href="https://cse.msu.edu/~suyiyan1/" target="_blank">Yiyang Su</a>,</span>
-            <span class="author-block">
-              <a href="https://www.cse.msu.edu/~jain/" target="_blank">Anil Jain</a>,</span>
-            <span class="author-block">
-              <a href="http://www.cse.msu.edu/~liuxm/" target="_blank">Xiaoming Liu</a></span>
-          </div>
+<!-- ── Hero ──────────────────────────────────────────────── -->
+<section class="hero-section">
+  <div class="hero-inner">
+    <div class="hero-badge">CVPR Findings 2026</div>
 
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">Michigan State University</span>
-          </div>
+    <h1 class="hero-title">
+      Can Textual Reasoning Improve the<br>
+      Performance of MLLMs on<br>
+      <span class="highlight">Fine-grained Visual Classification?</span>
+    </h1>
 
-          <div class="column has-text-centered" style="margin-top: 0.8rem;">
-            <div class="publication-links">
-              <span class="link-block">
-                <a href="./static/papers/FusionAgent_CVPR26_Jie.pdf"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="#"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="ai ai-arxiv"></i></span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://github.com/jiezhu23/FusionAgent_CVPR26"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon"><i class="fab fa-github"></i></span>
-                  <span>Code</span>
-                </a>
-              </span>
-            </div>
-          </div>
+    <p class="hero-authors">
+      <a href="https://jiezhu23.github.io/" target="_blank">Jie Zhu</a><sup>1</sup>,&ensp;
+      <a href="https://cse.msu.edu/~suyiyan1/" target="_blank">Yiyang Su</a><sup>1</sup>,&ensp;
+      <a href="http://www.cse.msu.edu/~liuxm/" target="_blank">Xiaoming Liu</a><sup>1,2</sup>
+    </p>
+    <p class="hero-affiliations">
+      <sup>1</sup>Michigan State University&emsp;
+      <sup>2</sup>University of North Carolina at Chapel Hill
+    </p>
 
-        </div>
+    <div class="hero-buttons">
+      <a href="./static/papers/ReFineRFT_CVPRF26_Jie.pdf" class="btn btn-amber" target="_blank">
+        <i class="fas fa-file-pdf"></i> Paper
+      </a>
+      <a href="https://arxiv.org/pdf/2601.06993" class="btn btn-outline" target="_blank">
+        <i class="ai ai-arxiv"></i> arXiv
+      </a>
+      <a href="https://github.com/jiezhu23/ReFine-RFT" class="btn btn-outline" target="_blank">
+        <i class="fab fa-github"></i> Code
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── TL;DR ─────────────────────────────────────────────── -->
+<div class="tldr-banner">
+  <div class="tldr-inner">
+    <strong>TL;DR</strong>&ensp;We uncover the <strong>"Cost of Thinking"</strong> in fine-grained visual classification —
+    longer CoT reasoning consistently hurts MLLM accuracy. We propose <strong>ReFine-RFT</strong>, a reinforcement
+    fine-tuning framework with ensemble rewards and <strong>Multi-Reward Normalization (MRN)</strong> that constrains
+    reasoning length while boosting accuracy, achieving state-of-the-art on four FGVC benchmarks.
+  </div>
+</div>
+
+<!-- ── Abstract ──────────────────────────────────────────── -->
+<section class="page-section" id="abstract">
+  <div class="section-inner">
+    <h2 class="section-heading"><i class="fas fa-scroll" style="color:var(--amber);font-size:1.1rem"></i> Abstract</h2>
+
+    <div class="abstract-text">
+      <p>
+        Multi-modal large language models (MLLMs) still struggle on <strong>Fine-Grained Visual Classification (FGVC)</strong>,
+        where subtle visual discrimination is essential. Chain-of-Thought (CoT) reasoning is widely adopted to boost
+        performance on challenging tasks, yet prior works have shown it can <em>harm</em> visual perception accuracy.
+        We systematically re-examine the role of textual reasoning in FGVC across zero-shot and RFT settings,
+        uncovering a central paradox: <strong>reasoning length is the key factor</strong> — longer CoT consistently
+        lowers classification accuracy, a phenomenon we term the <strong>"Cost of Thinking"</strong>.
+      </p>
+      <p>
+        Building on this, we propose <strong>ReFine-RFT</strong>, combining an ensemble reward with
+        <strong>Multi-Reward Normalization (MRN)</strong> to constrain reasoning length while providing dense,
+        accuracy-centric feedback. Extensive experiments achieve state-of-the-art results across FGVC benchmarks.
+      </p>
+    </div>
+
+    <!-- Contribution Cards — 2×2 grid -->
+    <div class="contrib-grid mt-4">
+      <div class="contrib-card">
+        <div class="contrib-number">1</div>
+        <div class="contrib-title">"Cost of Thinking"</div>
+        <p class="contrib-desc">Verbose CoT systematically degrades MLLM performance on fine-grained perception — thinking length, not CoT quality, is the key factor.</p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-number">2</div>
+        <div class="contrib-title">Multi-Reward Normalization (MRN)</div>
+        <p class="contrib-desc">A plug-and-play normalization module that independently normalizes heterogeneous reward signals before aggregation, stabilizing multi-objective RFT training.</p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-number">3</div>
+        <div class="contrib-title">ReFine-RFT Framework</div>
+        <p class="contrib-desc">Integrates MRN with an ensemble reward (format, accuracy, thinking length, MLLM-based, embedding similarity) to optimize visual accuracy while controlling reasoning length.</p>
+      </div>
+      <div class="contrib-card">
+        <div class="contrib-number">4</div>
+        <div class="contrib-title">State-of-the-Art on FGVC</div>
+        <p class="contrib-desc">ReFine-RFT achieves <strong>86.5%</strong> average accuracy (+3.6% vs Visual-RFT) on four FGVC benchmarks with only a 2B backbone in 4-shot settings.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TL;DR -->
-<section class="section tldr-section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="tldr-text">
-          <strong>TL;DR:</strong>&nbsp;&nbsp;<em>FusionAgent leverages a Multimodal LLM agent to dynamically select the optimal model combination per sample, achieving robust and explainable human recognition via adaptive score fusion.</em>
-        </h2>
+<!-- ── Motivation ────────────────────────────────────────── -->
+<section class="page-section alt-bg" id="motivation">
+  <div class="section-inner">
+    <h2 class="section-heading"><i class="fas fa-lightbulb" style="color:var(--amber);font-size:1.1rem"></i> Motivation: The Cost of Thinking</h2>
+
+    <div class="abstract-text">
+      <p>
+        CoT prompting consistently leads to accuracy degradation across all FGVC datasets.
+        Non-reasoning models exhibit an average drop of <strong>3–6%</strong> when switching from
+        <em>Answer-only</em> to <em>CoT</em> prompts.
+        More strikingly, during RFT, models exhibit <strong>Reasoning Collapse</strong> — they
+        gradually suppress verbose reasoning while optimizing for accuracy.
+      </p>
+    </div>
+
+    <!-- Fig 1: ~65% width, centered -->
+    <div class="figure-card mt-3" style="max-width: 65%; margin-left: auto; margin-right: auto;">
+      <img src="./static/images/figures/motivation-1.png" alt="Performance degradation with CoT and Reasoning Collapse in RFT">
+      <div class="figure-caption">
+        <span class="fig-num">Fig 1</span>
+        <strong>Performance degradation with CoT and Reasoning Collapse.</strong>
+        Zero-shot CoT leads to wrong answers despite correct direct prediction (top).
+        During RFT, reasoning length steadily shrinks while accuracy improves — an emergent <em>Reasoning Collapse</em> (bottom).
       </div>
+    </div>
+
+    <!-- Fig 2 + Fig 3 side-by-side → together motivate Finding 1 -->
+    <div class="fig-row col-2 mt-3">
+      <div class="figure-card">
+        <img src="./static/images/figures/fgvc_completion_length_rft-1.png" alt="Dynamics of reasoning length during RFT">
+        <div class="figure-caption">
+          <span class="fig-num">Fig 2</span>
+          <strong>Reasoning length dynamics during RFT.</strong>
+          Completion length rapidly decreases and stabilizes at a compact range across all four FGVC datasets, suggesting RFT implicitly discourages excessive reasoning.
+        </div>
+      </div>
+      <div class="figure-card">
+        <img src="./static/images/figures/fgvc_thinking_length_acc-1.png" alt="Impact of reasoning length on FGVC performance">
+        <div class="figure-caption">
+          <span class="fig-num">Fig 3</span>
+          <strong>Reasoning length vs. accuracy.</strong>
+          As average thinking length increases, classification accuracy consistently declines across all FGVC benchmarks — a clear negative correlation.
+        </div>
+      </div>
+    </div>
+
+    <div class="finding-box mt-3">
+      <div class="finding-label">🔍 Finding 1</div>
+      <p>For fine-grained visual tasks, <strong>thinking length is the key factor</strong>: excessive reasoning hurts performance, and MLLMs benefit more from <strong>concise</strong> responses than from elaborate reasoning.</p>
     </div>
   </div>
 </section>
 
-<!-- Demo Video -->
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
-          <h2 class="title is-3">Demo</h2>
-          <video id="demo-video" controls muted loop playsinline width="100%" style="border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.12);">
-            <source src="./static/videos/Demo_FusionAgent.mp4" type="video/mp4">
-          </video>
-        </div>
+<!-- ── Method ─────────────────────────────────────────────── -->
+<section class="page-section" id="method">
+  <div class="section-inner">
+    <h2 class="section-heading"><i class="fas fa-cogs" style="color:var(--amber);font-size:1.1rem"></i> Method: ReFine-RFT</h2>
+
+    <div class="abstract-text">
+      <p>
+        Inspired by our Cost of Thinking analysis, we propose <strong>ReFine-RFT</strong>:
+        a reinforcement fine-tuning framework that jointly constrains reasoning length and provides
+        dense accuracy-centric feedback. It features two key components:
+        an <strong>Ensemble Reward</strong> for richer supervision, and
+        <strong>Multi-Reward Normalization (MRN)</strong> for stable multi-objective optimization.
+      </p>
+    </div>
+
+    <!-- Figure 4 first -->
+    <div class="figure-card mt-3">
+      <img src="./static/images/figures/methods-1.png" alt="Overview of ReFine-RFT framework">
+      <div class="figure-caption">
+        <span class="fig-num">Fig 4</span>
+        <strong>Overview of ReFine-RFT.</strong>
+        For each question, the MLLM generates G candidate responses. Each response is scored by a hybrid ensemble reward (rule-based + model-based). MRN then independently normalizes each reward component before aggregation, producing the final advantage used in GRPO policy updates.
       </div>
+    </div>
+
+    <!-- Ensemble Reward subsection -->
+    <h3 class="sub-heading mt-4">Ensemble Reward</h3>
+    <div class="abstract-text">
+      <p>
+        Standard binary accuracy rewards offer sparse supervision and fail to capture semantic similarity
+        (e.g., "thorn apple" vs. "Datura stramonium" denote the same species).
+        We design an ensemble of five complementary reward signals to provide richer, more accuracy-centric feedback:
+      </p>
+    </div>
+
+    <div class="reward-grid mt-2">
+      <div class="reward-card">
+        <div class="reward-icon">📐</div>
+        <h4>Format Reward <em>R<sub>f</sub></em></h4>
+        <p>Binary reward enforcing adherence to the structured <code>&lt;think&gt;...&lt;/think&gt;&lt;answer&gt;...&lt;/answer&gt;</code> output template.</p>
+      </div>
+      <div class="reward-card">
+        <div class="reward-icon">🎯</div>
+        <h4>Classification Reward <em>R<sub>cls</sub></em></h4>
+        <p>Binary accuracy reward: yields 1 when the predicted class extracted from the answer tag matches ground truth, 0 otherwise.</p>
+      </div>
+      <div class="reward-card">
+        <div class="reward-icon">📏</div>
+        <h4>Thinking Length Reward <em>R<sub>len</sub></em></h4>
+        <p>Assigns 1 when reasoning length falls within [L<sub>min</sub>, L<sub>max</sub>] = [0, 10], explicitly constraining verbosity during training.</p>
+      </div>
+      <div class="reward-card">
+        <div class="reward-icon">🤖</div>
+        <h4>MLLM Accuracy Reward <em>R<sub>mllm</sub></em></h4>
+        <p>A teacher MLLM grades each prediction on [0, 1] based on semantic alignment with the ground-truth label, capturing subcategory-level nuances.</p>
+      </div>
+      <div class="reward-card">
+        <div class="reward-icon">🔗</div>
+        <h4>Embedding Similarity Reward <em>R<sub>emb</sub></em></h4>
+        <p>Cosine similarity between the predicted and ground-truth answer embeddings (via E5), providing a smooth, continuous semantic supervision signal.</p>
+      </div>
+    </div>
+
+    <!-- MRN subsection -->
+    <h3 class="sub-heading mt-4">Multi-Reward Normalization (MRN)</h3>
+    <div class="abstract-text">
+      <p>
+        When multiple reward signals are combined in standard GRPO, they are first summed and then
+        normalized as a single scalar. This causes fast-saturating rewards (e.g., format reward)
+        to dominate early training and dilute the influence of slower, more informative rewards
+        (e.g., accuracy). MRN addresses this by <strong>normalizing each reward independently</strong>
+        before aggregation, placing all rewards on a comparable scale throughout training.
+      </p>
+    </div>
+
+    <div class="figure-card mt-2" style="max-width: 540px; margin-left: auto; margin-right: auto;">
+      <img src="./static/images/figures/MRN_alg.png" alt="MRN Algorithm — Advantage Normalization with Multi-Reward Normalization">
+      <div class="figure-caption">
+        <strong>Algorithm 1: Advantage Normalization with MRN.</strong>
+        MRN normalizes each reward independently before aggregation, in contrast to standard GRPO which aggregates first and normalizes once. This prevents fast-saturating rewards from dominating the gradient signal.
+      </div>
+    </div>
+
+    <div class="finding-box mt-3">
+      <div class="finding-label">💡 Conclusion 1</div>
+      <p>For fine-grained visual perception, jointly using <strong>multi-perspective, accuracy-centric rewards</strong> and <strong>explicit reasoning length control</strong> leads to stronger visual perception capabilities.</p>
     </div>
   </div>
 </section>
 
-<!-- Abstract -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3 section-title">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            Existing whole-body human recognition systems usually fuse face, gait, and body models with a fixed strategy for all samples. This static design is inefficient and can hurt accuracy when some modalities are unreliable (e.g., missing face cues in back-view videos).
-          </p>
-          <p>
-            We propose <strong>FusionAgent</strong>, an MLLM-based framework that dynamically selects model subsets per sample and fuses their outputs with <strong>Anchor-based Confidence Top-k (ACT)</strong> score fusion. Trained with reinforcement fine-tuning under Group Relative Policy Optimization (GRPO) and a metric-based reward, FusionAgent learns explainable, sample-specific model selection without requiring ground-truth reasoning traces or exhaustive search over model combinations.
-          </p>
-          <p>
-            Across CCVID, LTCC, and MEVID, FusionAgent consistently improves open-set search and verification performance, while also providing a practical trade-off between interpretability and speed through <strong>Chain-of-Thought (CoT)</strong> and <strong>Direct Answering (DA)</strong> inference modes.
-          </p>
-        </div>
-      </div>
+<!-- ── Results ───────────────────────────────────────────── -->
+<section class="page-section alt-bg" id="results">
+  <div class="section-inner">
+    <h2 class="section-heading"><i class="fas fa-chart-bar" style="color:var(--amber);font-size:1.1rem"></i> Experimental Results</h2>
+
+    <div class="abstract-text">
+      <p>
+        ReFine-RFT is evaluated in a 4-shot setting on four FGVC benchmarks: <strong>Aircrafts-102</strong>,
+        <strong>Flowers-102</strong>, <strong>Cars-196</strong>, and <strong>Oxford-Pets-37</strong>.
+        Using Qwen2-VL-2B-Instruct as the base, ReFine-RFT with LoRA achieves
+        <strong>86.5% average accuracy</strong>, a <strong>+3.6% improvement</strong> over Visual-RFT.
+      </p>
+    </div>
+
+    <div class="result-table-wrap mt-3">
+      <table class="rtable">
+        <caption>Performance Comparison on FGVC Benchmarks (4-shot, Top-1 Accuracy %)</caption>
+        <thead>
+          <tr>
+            <th>Methods</th>
+            <th>FT Method</th>
+            <th>FT Type</th>
+            <th>Aircrafts-102</th>
+            <th>Flowers-102</th>
+            <th>Cars-196</th>
+            <th>Pets-37</th>
+            <th>Average</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Qwen2-VL-2B</td>
+            <td><em>Zero-shot</em></td>
+            <td>—</td>
+            <td>45.9</td><td>54.8</td><td>56.8</td><td>66.4</td><td>56.0</td>
+          </tr>
+          <tr>
+            <td>Finedelics-8B</td>
+            <td><em>SFT</em></td>
+            <td>Fully-FT</td>
+            <td>63.8</td><td>89.9</td><td>84.7</td><td>92.2</td><td>82.7</td>
+          </tr>
+          <tr class="section-sep">
+            <td>SFT-AO</td>
+            <td rowspan="3"><em>SFT</em></td>
+            <td>Fully-FT</td>
+            <td>67.9</td><td>58.5</td><td>40.5</td><td>55.5</td><td>55.6</td>
+          </tr>
+          <tr>
+            <td>SFT-AO</td>
+            <td>Lora</td>
+            <td>78.3</td><td>74.8</td><td>80.0</td><td>87.6</td><td>80.2</td>
+          </tr>
+          <tr>
+            <td>SFT-CoT</td>
+            <td>Lora</td>
+            <td>73.9</td><td>74.4</td><td>52.3</td><td>87.5</td><td>72.0</td>
+          </tr>
+          <tr class="section-sep">
+            <td>Visual-RFT</td>
+            <td rowspan="4"><em>RFT</em></td>
+            <td>Fully-FT</td>
+            <td>74.8</td><td>71.4</td><td>95.3</td><td>86.1</td><td>81.9</td>
+          </tr>
+          <tr>
+            <td>Visual-RFT</td>
+            <td>Lora</td>
+            <td>75.6</td><td>74.1</td><td>95.7</td><td>86.0</td><td>82.9</td>
+          </tr>
+          <tr>
+            <td>No-Thinking-RFT</td>
+            <td>Fully-FT</td>
+            <td>—</td><td>71.2</td><td>—</td><td>86.1</td><td>—</td>
+          </tr>
+          <tr>
+            <td><strong>ReFine-RFT-AO (Ours)</strong></td>
+            <td>Lora</td>
+            <td>78.7</td><td>81.4</td><td>93.1</td><td>87.6</td><td>85.2</td>
+          </tr>
+          <tr class="is-best">
+            <td><strong>ReFine-RFT-CoT (Ours)</strong></td>
+            <td><em>RFT</em></td>
+            <td>Lora</td>
+            <td><strong>79.3 (+3.7%)</strong></td>
+            <td><strong>81.0 (+6.9%)</strong></td>
+            <td><strong>97.1 (+1.4%)</strong></td>
+            <td><strong>88.6 (+2.6%)</strong></td>
+            <td><strong>86.5 (+3.6%)</strong></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
 
-<!-- Motivation -->
-<section class="section has-background-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3 section-title">Why Dynamic Model Selection?</h2>
-        <div class="content has-text-justified" style="margin-bottom: 1.5rem;">
-          <p>
-            Existing score-fusion methods &mdash; both rule-based and learning-based &mdash; assume that <em>all models</em> provide complementary information, treating the model combination as fixed for every input. This can be suboptimal: for instance, when a video only captures the back view of a person, incorporating face recognition models would be inappropriate and may even degrade performance.
-          </p>
-          <p>
-            FusionAgent addresses this by leveraging an MLLM agent to <strong>dynamically select a subset of models</strong> per sample, followed by adaptive score fusion, enabling robust integration tailored to each input.
-          </p>
+<!-- ── Analysis ───────────────────────────────────────────── -->
+<section class="page-section" id="analysis">
+  <div class="section-inner">
+    <h2 class="section-heading"><i class="fas fa-microscope" style="color:var(--amber);font-size:1.1rem"></i> Analysis</h2>
+
+    <div class="fig-row col-2">
+      <div class="figure-card">
+        <img src="./static/images/figures/val_curves_flowers-1.png" alt="Reward curves on Flowers-102">
+        <div class="figure-caption">
+          <span class="fig-num">Fig 6</span>
+          <strong>Reward curves on Flowers-102.</strong>
+          All reward components and validation accuracy consistently increase during training, demonstrating the effectiveness of the ensemble reward design.
         </div>
-        <figure class="image figure-scaled-80">
-          <img src="./static/images/figures/motivation.png" alt="Comparison of score-fusion methods: rule-based vs. learning-based vs. FusionAgent" style="border-radius: 8px;">
-          <figcaption class="fig-caption">
-            <strong>Comparison of score-fusion methods.</strong> Top: Rule-based methods apply predefined transformations to fuse all model scores, while learning-based methods infer a fusion model from data but still assume every model contributes to all test samples. Bottom: FusionAgent leverages an MLLM agent to dynamically select a subset of models, followed by the proposed score-fusion strategy.
-          </figcaption>
-        </figure>
       </div>
+      <div class="figure-card">
+        <img src="./static/images/figures/reward_comparison_aircrafts-1.png" alt="MRN vs GRPO reward stability on Aircrafts-102">
+        <div class="figure-caption">
+          <span class="fig-num">Fig 7</span>
+          <strong>MRN vs GRPO reward stability.</strong>
+          MRN+GRPO achieves consistently higher reward values and significantly lower standard deviation throughout training, indicating improved optimization stability.
+        </div>
+      </div>
+    </div>
+
+    <div class="figure-card mt-3" style="max-width: 680px; margin: 1.5rem auto 0;">
+      <img src="./static/images/figures/cases_comparison-1.png" alt="Qualitative comparison of model responses">
+      <div class="figure-caption">
+        <span class="fig-num">Fig 8</span>
+        <strong>Qualitative comparison.</strong>
+        SFT-CoT and Visual-RFT produce long reasoning chains with incorrect answers. ReFine-RFT achieves concise reasoning and higher accuracy — correctly identifying the aircraft model and cat breed that others miss.
+      </div>
+    </div>
+
+    <div class="finding-box mt-4">
+      <div class="finding-label">🔑 Key Takeaway</div>
+      <p>
+        <strong>ReFine-RFT with only a 2B backbone and 4-shot training significantly surpasses Finedelics-8B trained on the full FGVC datasets</strong>,
+        underscoring the efficiency and scalability of our approach. The gain comes not from using more data or parameters,
+        but from better reward shaping and reasoning control.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- Method -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column">
-        <h2 class="title is-3 section-title">Method</h2>
-        <div class="content has-text-justified" style="max-width: 800px; margin: 0 auto 1.5rem auto;">
-          <p>
-            The FusionAgent framework consists of two core components: (1) an <strong>MLLM-based agent</strong> that performs multi-turn reasoning and dynamic model selection using a ReAct-style controller, and (2) the <strong>ACT score-fusion</strong> algorithm that robustly integrates outputs from the selected models. The agent is trained via Group Relative Policy Optimization (GRPO) with four reward functions: format reward, tool success reward, answer accuracy reward, and a novel <em>metric-based reward</em>.
-          </p>
-          <p>
-            For each query, the agent first analyzes the biometric evidence and selects an initial model. Each tool returns both a predicted identity and an internal score vector over the gallery; the score vector is retained for fusion, while the predicted identity is exposed to the agent for subsequent reasoning. The agent can then continue invoking tools or terminate with a final answer and reasoning summary, yielding transparent, traceable decisions.
-          </p>
-        </div>
-        <figure class="image figure-scaled-88">
-          <img src="./static/images/figures/overview.png" alt="Overview of the FusionAgent framework" style="border-radius: 8px;">
-          <figcaption class="fig-caption">
-            <strong>Overview of the FusionAgent framework.</strong> Recognition models are wrapped as tools to generate score vectors and predicted identities. The MLLM agent receives multimodal biometric inputs, performs reasoning-action steps through multi-turn dialogue, selectively invokes tools, and integrates predictions into a final identity decision and fused score vector. The agent is optimized with reinforcement fine-tuning using rule-based rewards, including the proposed metric-based reward.
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ACT Score-Fusion -->
-<section class="section has-background-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3 section-title">Anchor-based Confidence Top-k (ACT) Score-Fusion</h2>
-        <div class="content has-text-justified" style="margin-bottom: 1.5rem;">
-          <p>
-            ACT dynamically combines scores from multiple models by leveraging a stable <strong>anchor model</strong> (the first model selected by the agent) to provide a robust score vector, while selectively incorporating normalized, high-confidence scores from complementary models. The anchor model provides a global ranking structure, while selected models offer sparse, localized refinements only for their top-k predictions.
-          </p>
-          <p>
-            This design reduces the misalignment introduced by heterogeneous embeddings and sample-wise model selection. In practice, ACT is especially effective for difficult verification and open-set search settings, where suppressing noisy non-match scores is as important as improving the top match.
-          </p>
-        </div>
-        <figure class="image">
-          <img src="./static/images/figures/act_example.png" alt="ACT score-fusion example" style="border-radius: 8px;">
-          <figcaption class="fig-caption">
-            <strong>A toy example of ACT score-fusion.</strong> Three models are used with the FR model as the anchor and k=1. ACT amplifies the gap between match and non-match scores through confidence-based top-k and anchor weighting, improving verification and open-set search performance.
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Experimental Results -->
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column">
-        <h2 class="title is-3 section-title">Experimental Results</h2>
-        <div class="content has-text-justified" style="max-width: 800px; margin: 0 auto 1.5rem auto;">
-          <p>
-            FusionAgent is evaluated on three challenging whole-body biometric benchmarks: CCVID, LTCC, and MEVID. The results consistently demonstrate superior performance across all metrics, especially in verification (TAR@FAR) and open-set search (FNIR@FPIR).
-          </p>
-          <p>
-            Compared with statistical fusion baselines and the quality-aware fusion method QME, FusionAgent achieves the most consistent gains in FNIR, showing that adaptive model selection is particularly beneficial for robust open-set retrieval. The paper also reports that DA substantially reduces latency relative to CoT, while CoT provides more interpretable reasoning, and that the agent transfers well to cross-domain LTCC evaluation with zero-shot and 10-shot adaptation.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Results Tables (Paginated, Equal-Size Cards) -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <div class="result-pager" id="result-pager">
-          <div class="result-page is-active">
-            <div class="table-container">
-              <table class="table is-bordered is-hoverable is-fullwidth result-table">
-                <caption class="table-caption">Performance on <strong>CCVID</strong></caption>
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Rank-1 &uarr;</th>
-                    <th>mAP &uarr;</th>
-                    <th>TAR@1%FAR &uarr;</th>
-                    <th>FNIR@1%FPIR &darr;</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>AdaFace</td><td>94.0</td><td>87.9</td><td>75.7</td><td>13.0 &plusmn; 3.5</td></tr>
-                  <tr><td>CAL</td><td>81.4</td><td>74.7</td><td>66.3</td><td>52.8 &plusmn; 13.3</td></tr>
-                  <tr><td>BigGait</td><td>76.7</td><td>61.0</td><td>49.7</td><td>71.1 &plusmn; 6.1</td></tr>
-                  <tr><td>SapiensID</td><td>92.6</td><td>77.8</td><td>-</td><td>-</td></tr>
-                  <tr class="table-divider"><td>Min-Fusion</td><td>87.1</td><td>79.2</td><td>62.4</td><td>48.5 &plusmn; 8.7</td></tr>
-                  <tr><td>Max-Fusion</td><td>89.9</td><td>89.3</td><td>73.4</td><td>23.0 &plusmn; 10.1</td></tr>
-                  <tr><td>Z-score</td><td>92.2</td><td>90.6</td><td>73.9</td><td>15.1 &plusmn; 1.5</td></tr>
-                  <tr><td>Min-max</td><td>91.8</td><td>90.9</td><td>73.9</td><td>15.4 &plusmn; 2.5</td></tr>
-                  <tr><td>Weighted-sum</td><td>91.7</td><td>90.6</td><td>73.6</td><td>15.4 &plusmn; 1.8</td></tr>
-                  <tr><td>Asym-AO1</td><td>92.3</td><td>90.0</td><td>74.0</td><td>15.9 &plusmn; 1.7</td></tr>
-                  <tr><td>BSSF</td><td>91.8</td><td>91.1</td><td>73.9</td><td>14.1 &plusmn; 1.3</td></tr>
-                  <tr><td>Farsight</td><td>92.0</td><td>91.2</td><td>73.9</td><td>13.9 &plusmn; 1.1</td></tr>
-                  <tr><td>QME</td><td>94.1</td><td>90.8</td><td>76.2</td><td>12.3 &plusmn; 1.4</td></tr>
-                  <tr><td>FusionAgent (DA)</td><td>92.8</td><td>92.2</td><td>85.8</td><td>10.5 &plusmn; 1.5</td></tr>
-                  <tr class="is-best"><td><strong>FusionAgent (CoT)</strong></td><td><strong>93.4</strong></td><td><strong>92.6</strong></td><td><strong>85.9</strong></td><td><strong>10.1 &plusmn; 1.5</strong></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="result-page">
-            <div class="table-container">
-              <table class="table is-bordered is-hoverable is-fullwidth result-table">
-                <caption class="table-caption">Performance on <strong>LTCC</strong></caption>
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Rank-1 &uarr;</th>
-                    <th>mAP &uarr;</th>
-                    <th>TAR@1%FAR &uarr;</th>
-                    <th>FNIR@1%FPIR &darr;</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>AdaFace</td><td>18.5</td><td>5.9</td><td>2.4</td><td>99.8 &plusmn; 0.2</td></tr>
-                  <tr><td>CAL</td><td>74.4</td><td>40.6</td><td>36.7</td><td>59.7 &plusmn; 7.3</td></tr>
-                  <tr><td>AIM</td><td>74.8</td><td>40.9</td><td>37.0</td><td>66.2 &plusmn; 7.5</td></tr>
-                  <tr><td>SapiensID</td><td>72.0</td><td>34.6</td><td>-</td><td>-</td></tr>
-                  <tr class="table-divider"><td>Min-Fusion</td><td>38.1</td><td>13.5</td><td>12.4</td><td>81.9 &plusmn; 6.0</td></tr>
-                  <tr><td>Max-Fusion</td><td>62.5</td><td>33.3</td><td>16.8</td><td>94.8 &plusmn; 4.7</td></tr>
-                  <tr><td>Z-score</td><td>73.0</td><td>37.5</td><td>30.4</td><td>68.7 &plusmn; 9.2</td></tr>
-                  <tr><td>Min-max</td><td>73.2</td><td>38.1</td><td>31.9</td><td>75.1 &plusmn; 9.2</td></tr>
-                  <tr><td>Weighted-sum</td><td>73.2</td><td>37.8</td><td>31.3</td><td>72.4 &plusmn; 8.6</td></tr>
-                  <tr><td>Asym-AO1</td><td>71.2</td><td>32.9</td><td>19.1</td><td>76.3 &plusmn; 8.9</td></tr>
-                  <tr><td>BSSF</td><td>73.5</td><td>39.1</td><td>34.2</td><td>68.9 &plusmn; 8.5</td></tr>
-                  <tr><td>Farsight</td><td>73.2</td><td>37.8</td><td>31.3</td><td>72.4 &plusmn; 8.6</td></tr>
-                  <tr><td>QME</td><td>73.8</td><td>39.6</td><td>35.0</td><td>64.3 &plusmn; 8.0</td></tr>
-                  <tr><td>FusionAgent (DA)</td><td>75.5</td><td>41.0</td><td>36.5</td><td>50.3 &plusmn; 9.0</td></tr>
-                  <tr class="is-best"><td><strong>FusionAgent (CoT)</strong></td><td><strong>75.5</strong></td><td><strong>41.0</strong></td><td><strong>37.0</strong></td><td><strong>50.0 &plusmn; 8.5</strong></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div class="result-page">
-            <div class="table-container">
-              <table class="table is-bordered is-hoverable is-fullwidth result-table">
-                <caption class="table-caption">Performance on <strong>MEVID</strong></caption>
-                <thead>
-                  <tr>
-                    <th>Method</th>
-                    <th>Rank-1 &uarr;</th>
-                    <th>mAP &uarr;</th>
-                    <th>TAR@1%FAR &uarr;</th>
-                    <th>FNIR@1%FPIR &darr;</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr><td>AdaFace</td><td>25.0</td><td>8.1</td><td>5.4</td><td>98.8 &plusmn; 1.2</td></tr>
-                  <tr><td>CAL</td><td>52.5</td><td>27.1</td><td>34.7</td><td>67.8 &plusmn; 7.3</td></tr>
-                  <tr><td>AGRL</td><td>51.9</td><td>25.5</td><td>30.7</td><td>69.4 &plusmn; 8.9</td></tr>
-                  <tr class="table-divider"><td>Min-Fusion</td><td>46.8</td><td>21.2</td><td>28.0</td><td>70.4 &plusmn; 8.0</td></tr>
-                  <tr><td>Max-Fusion</td><td>33.2</td><td>14.9</td><td>8.3</td><td>97.4 &plusmn; 1.6</td></tr>
-                  <tr><td>Z-score</td><td>54.1</td><td>27.4</td><td>30.7</td><td>66.5 &plusmn; 7.0</td></tr>
-                  <tr><td>Min-max</td><td>52.8</td><td>24.7</td><td>25.0</td><td>71.3 &plusmn; 6.1</td></tr>
-                  <tr><td>Weighted-sum</td><td>54.1</td><td>27.3</td><td>30.3</td><td>66.3 &plusmn; 7.0</td></tr>
-                  <tr><td>Asym-AO1</td><td>52.5</td><td>22.9</td><td>23.6</td><td>71.7 &plusmn; 5.8</td></tr>
-                  <tr><td>BSSF</td><td>53.5</td><td>27.4</td><td>30.5</td><td>65.9 &plusmn; 7.2</td></tr>
-                  <tr><td>Farsight</td><td>53.8</td><td>25.4</td><td>26.6</td><td>69.8 &plusmn; 6.4</td></tr>
-                  <tr><td>QME</td><td>55.7</td><td>28.2</td><td>32.9</td><td>64.6 &plusmn; 8.2</td></tr>
-                  <tr><td>FusionAgent (DA)</td><td>52.5</td><td>28.7</td><td>34.8</td><td>60.8 &plusmn; 7.3</td></tr>
-                  <tr class="is-best"><td><strong>FusionAgent (CoT)</strong></td><td><strong>54.7</strong></td><td><strong>28.7</strong></td><td><strong>34.9</strong></td><td><strong>58.6 &plusmn; 7.4</strong></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <div class="result-pager-controls">
-          <button id="result-prev" class="button is-rounded result-pager-arrow" type="button" aria-label="Previous page">
-            <span class="icon"><i class="fas fa-chevron-left"></i></span>
-          </button>
-          <div id="result-dots" class="result-dots"></div>
-          <button id="result-next" class="button is-rounded result-pager-arrow" type="button" aria-label="Next page">
-            <span class="icon"><i class="fas fa-chevron-right"></i></span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Qualitative Analysis -->
-<section class="section has-background-light">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column">
-        <h2 class="title is-3 section-title">Analysis</h2>
-      </div>
-    </div>
-
-    <div class="columns is-centered analysis-two-col" style="margin-top: 1rem;">
-      <!-- Score Distribution -->
-      <div class="column is-half">
-        <div class="analysis-col-content">
-          <h3 class="title is-5 analysis-col-title">Score Distribution Comparison</h3>
-          <div class="analysis-col-figure">
-            <figure class="image" style="margin-bottom: 0.5rem;">
-              <img src="./static/images/figures/qme_ours_score_distribution.png" alt="Score distribution comparison" style="border-radius: 8px;">
-            </figure>
-            <p class="fig-caption has-text-justified" style="font-size: 0.9rem;">
-            FusionAgent achieves a markedly larger margin between match scores and the FAR threshold, while effectively suppressing non-match scores near zero.
-          </p>
-          </div>
-        </div>
-      </div>
-      <!-- Model Selection Statistics -->
-      <div class="column is-half">
-        <div class="analysis-col-content">
-          <h3 class="title is-5 analysis-col-title">Dynamic Model Selection Statistics</h3>
-          <div class="analysis-col-figure">
-            <figure class="image" style="margin-bottom: 0.5rem;">
-              <img src="./static/images/figures/ablation_model_selection.png" alt="Model selection statistics" style="border-radius: 8px;">
-            </figure>
-            <p class="fig-caption has-text-justified" style="font-size: 0.9rem;">
-            The agent adapts its model selection per dataset: on CCVID (clear faces), it anchors on the FR model; on LTCC/MEVID (surveillance), it relies more on ReID models.
-          </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="columns is-centered" style="margin-top: 1.2rem;">
-      <div class="column is-four-fifths">
-        <div class="content has-text-justified">
-          <p>
-            The ablation study in the paper shows that the performance gain does not come from using more models indiscriminately. Compared with hard selection that fuses all models, agent-based dynamic selection consistently performs better across Rank-1, mAP, and TAR, while substantially reducing FNIR. Additional experiments also show that ACT remains effective when paired with the agent-selected model subsets, outperforming alternative fusion rules such as Z-score and Farsight on LTCC.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Top-k Ablation -->
-    <div class="columns is-centered" style="margin-top: 2rem;">
-      <div class="column is-four-fifths has-text-centered">
-        <h3 class="title is-5">Effect of Top-k Value in ACT</h3>
-        <figure class="image figure-scaled-80" style="margin-bottom: 0.5rem;">
-          <img src="./static/images/figures/ablation_topk_ltcc.png" alt="Top-k ablation on LTCC" style="border-radius: 8px;">
-        </figure>
-        <p class="fig-caption" style="font-size: 0.9rem;">
-          FusionAgent consistently outperforms baselines across all top-k values, maintaining both higher performance and greater stability compared to hard selection (using all models).
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- BibTeX -->
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title is-3 section-title has-text-centered">BibTeX</h2>
-    <pre><code>@inproceedings{zhu2026fusionagent,
-  title     = {FusionAgent: A Multimodal Agent with Dynamic Model Selection for Human Recognition},
-  author    = {Zhu, Jie and Guo, Xiao and Su, Yiyang and Jain, Anil and Liu, Xiaoming},
-  booktitle = {CVPR},
+<!-- ── BibTeX ─────────────────────────────────────────────── -->
+<section class="page-section alt-bg" id="bibtex">
+  <div class="section-inner">
+    <h2 class="section-heading"><i class="fas fa-quote-right" style="color:var(--amber);font-size:1.1rem"></i> BibTeX</h2>
+    <div class="bibtex-wrap">
+      <div class="bibtex-block">
+        <code>@inproceedings{zhu2026refinerft,
+  title     = {Can Textual Reasoning Improve the Performance of MLLMs
+               on Fine-grained Visual Classification?},
+  author    = {Zhu, Jie and Su, Yiyang and Liu, Xiaoming},
+  booktitle = {CVPR Findings},
   year      = {2026},
-}</code></pre>
-  </div>
-</section>
-
-
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link" href="./static/papers/FusionAgent_CVPR26_Jie.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="#" class="external-link">
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content has-text-centered" style="font-size: 0.9rem; color: #888;">
-          <p>
-            Website template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
-          </p>
-        </div>
+}</code>
       </div>
     </div>
   </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <p>
+    <a href="https://arxiv.org/pdf/2601.06993" target="_blank">arXiv</a> &middot;
+    <a href="https://github.com/jiezhu23/ReFine-RFT" target="_blank">GitHub</a> &middot;
+    <a href="./static/papers/ReFineRFT_CVPRF26_Jie.pdf" target="_blank">PDF</a>
+  </p>
+  <p style="margin-top:0.5rem;">
+    Website template adapted from <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+  </p>
 </footer>
 
-<script>
-  (function () {
-    var pages = document.querySelectorAll('#result-pager .result-page');
-    var prevButton = document.getElementById('result-prev');
-    var nextButton = document.getElementById('result-next');
-    var dotsContainer = document.getElementById('result-dots');
-    var dots = [];
-    var currentIndex = 0;
-
-    for (var i = 0; i < pages.length; i++) {
-      var dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'result-dot';
-      dot.setAttribute('aria-label', 'Page ' + (i + 1));
-      dot.addEventListener('click', (function (idx) {
-        return function () {
-          currentIndex = idx;
-          updatePager();
-        };
-      })(i));
-      dotsContainer.appendChild(dot);
-      dots.push(dot);
-    }
-
-    function updatePager() {
-      pages.forEach(function (page, index) {
-        page.classList.toggle('is-active', index === currentIndex);
-      });
-      dots.forEach(function (dot, index) {
-        dot.classList.toggle('is-active', index === currentIndex);
-      });
-      prevButton.disabled = currentIndex === 0;
-      nextButton.disabled = currentIndex === pages.length - 1;
-    }
-
-    prevButton.addEventListener('click', function () {
-      if (currentIndex > 0) {
-        currentIndex -= 1;
-        updatePager();
-      }
-    });
-
-    nextButton.addEventListener('click', function () {
-      if (currentIndex < pages.length - 1) {
-        currentIndex += 1;
-        updatePager();
-      }
-    });
-
-    updatePager();
-  })();
-</script>
 
 </body>
 </html>
